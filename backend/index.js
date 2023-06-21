@@ -19,18 +19,18 @@ app.use("/api/user", userRouter);
 app.use("/api/chats", chatRouter);
 app.use("/api/message", messageRouter);
 
-// ----------------- Depoloyment--------------
-const __dirname1 = path.resolve();
-if ("production" === "production") {
-  app.use(express.static(path.join(__dirname1, "../front-end/dist")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname1, "front-end", "dist", "index.html"));
-  });
-} else {
-  console.log("api running successfully");
-}
+// // ----------------- Depoloyment--------------
+// const __dirname1 = path.resolve();
+// if ("production" === "production") {
+//   app.use(express.static(path.join(__dirname1, ".d./front-end/dist")));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname1, "front-end", "dist", "index.html"));
+//   });
+// } else {
+//   console.log("api running successfully");
+// }
 
-// ----------------- Depoloyment--------------
+// // ----------------- Depoloyment--------------
 
 app.use(notfound);
 app.use(errorHandler);
