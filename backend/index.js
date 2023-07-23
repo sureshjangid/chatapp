@@ -8,7 +8,7 @@ const messageRouter = require("./Router/messageRouter");
 const cors = require("cors");
 const { notfound, errorHandler } = require("./middlewares/errorMiddleware");
 const path = require("path");
-
+const serverless = require("serverless-http");
 dotenv.config({ path: "../.env" });
 conntectDB();
 const app = express();
@@ -19,26 +19,18 @@ app.use("/api/user", userRouter);
 app.use("/api/chats", chatRouter);
 app.use("/api/message", messageRouter);
 
-// // ----------------- Depoloyment--------------
-// const __dirname1 = path.resolve();
-// if ("production" === "production") {
-//   app.use(express.static(path.join(__dirname1, ".d./front-end/dist")));
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname1, "front-end", "dist", "index.html"));
-//   });
-// } else {
-//   console.log("api running successfully");
-// }
-
-// // ----------------- Depoloyment--------------
-
-app.use(notfound);
+// app.use(notfound);
 app.use(errorHandler);
+const hostname = "0.0.0.0";
 const POST = 3002;
 const server = app.listen(
   POST,
-  console.log(`server start on ${POST}`.yellow.bold)
+  console.log(`server start on ${hostname} ${POST}`.yellow.bold)
 );
+app.get("/", async (req, res) => {
+  console.log("suresh jangid");
+  res.send("success");
+});
 
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
@@ -80,3 +72,4 @@ io.on("connection", (socket) => {
     socket.leaver(userData._id);
   });
 });
+module.exports.handler = serverless(app);
